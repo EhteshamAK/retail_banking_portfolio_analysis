@@ -1,88 +1,124 @@
-# Retail Banking Customer Value & Risk Analytics
+# Retail Banking Portfolio Analysis
 
-## Executive summary
-This project analyses customer value, engagement, churn, account balances, loan exposure, and transaction behaviour across a multi-table retail banking dataset.
+## Project Overview
 
-The aim is to answer a management question:
+This project analyses a multi-table retail banking dataset using Python, Pandas and Matplotlib.
 
-> **Which customer segments create the most value, which segments show the highest risk, and where should the bank focus retention and cross-sell efforts?**
+The goal was to understand customer behaviour, account balances, lending risk, transaction activity and branch performance, and turn the analysis into practical business insights.
 
-## Why this is portfolio-grade
-This is not a single-table charting exercise. The project demonstrates:
+The project also demonstrates how data stored across different banking tables can be cleaned, connected using common keys, and analysed together.
 
-- Multi-table data modelling and joins
-- Data-quality assessment and cleaning
-- KPI design
-- Customer segmentation
-- Churn and engagement analysis
-- Loan risk/exposure analysis
-- Transaction trend analysis
-- Business recommendations
-- Python/Pandas/Matplotlib workflow
-- Recruiter-friendly documentation
+---
 
-## Data model
-- `customers.csv` — demographic, credit, engagement and churn information
-- `accounts.csv` — account products and balances
-- `loans.csv` — lending exposure and status
-- `transactions.csv` — monthly customer/account activity
-- `branches.csv` — branch and region dimension
+## Business Objective
 
-Primary keys and join keys:
-- `CustomerID`
-- `AccountID`
-- `BranchID`
+The analysis focuses on five areas:
 
-## Core business questions
-1. What is the overall churn rate?
-2. Which geographies and customer segments have the highest churn?
-3. How does activity status relate to churn?
-4. Which customers hold the highest balances and value?
-5. Which loan segments create the highest exposure and delinquency risk?
-6. How do inflows, outflows, transaction volumes and fee revenue change over time?
-7. Does digital engagement vary by age or customer segment?
-8. Which customer groups should management prioritise for retention or cross-sell?
+- Customer profile and activity
+- Account and deposit performance
+- Loan exposure and credit risk
+- Transaction behaviour
+- Branch performance
 
-## Core KPIs
-- Total customers
-- Churn rate
-- Active-member rate
-- Total deposits / account balances
-- Average balance per customer
-- Total loan outstanding
-- Late/default loan rate
-- Monthly transaction volume
-- Monthly fee revenue
+The main objective was to identify important patterns in the bank's portfolio and highlight areas that management should monitor or improve.
+
+---
+
+## Dataset
+
+The project uses five related datasets:
+
+### Customers
+Contains customer-level information including:
+
+- Age
+- Gender
+- Geography
+- Estimated annual income
+- Credit score
+- Active-member status
+- Customer exit status
+- Branch ID
+
+### Accounts
+Contains account-level information including:
+
+- Account type
+- Current balance
+- Overdraft limit
+- Account status
+- Customer ID
+
+### Loans
+Contains lending information including:
+
+- Loan type
+- Original loan amount
+- Outstanding balance
+- Interest rate
+- Loan status
+
+### Transactions
+Contains monthly account activity including:
+
+- Transaction count
+- Inflow amount
+- Outflow amount
+- Fee revenue
 - Digital transaction share
 
-## Recommended final deliverables
-- Python notebook with reproducible analysis
-- Power BI dashboard
-- GitHub README and data dictionary
-- Executive summary with 5–8 insights
-- LinkedIn portfolio post
-- Interview-ready 60-second project explanation
+The transaction dataset contains 46,392 account-month records covering 12 months.
 
-## Repository structure
+### Branches
+Contains information for four branches:
+
+- London Central
+- Paris Central
+- Frankfurt Central
+- Madrid Central
+
+---
+
+## Data Preparation
+
+I first inspected all datasets for:
+
+- Dataset dimensions
+- Missing values
+- Duplicate records
+- Data types
+- Data-quality issues
+
+A reusable Python loop was used to create a summary of data quality across the five datasets.
+
+The main data-quality issues were found in the customer dataset.
+
+Cleaning included:
+
+- Removing duplicate customer records
+- Investigating missing values
+- Filling missing annual income using the median income of customers from the same geography
+- Labelling unavailable geography as `Unknown`
+- Keeping unknown Branch IDs missing rather than assigning unsupported values
+- Correcting appropriate data types
+
+---
+
+## Data Integration
+
+The datasets were connected using their common identifiers.
+
 ```text
-retail_banking_portfolio_project/
-├── data/
-│   ├── customers.csv
-│   ├── accounts.csv
-│   ├── loans.csv
-│   ├── transactions.csv
-│   └── branches.csv
-├── docs/
-│   ├── data_dictionary.csv
-│   └── project_brief.md
-├── notebooks/
-│   └── retail_banking_analysis.ipynb
-├── README.md
-└── requirements.txt
-```
-
-## Tech stack
-Python, Pandas, NumPy, Matplotlib, Jupyter, Power BI, Git/GitHub.
-
-## Status
-Portfolio build in progress.
+Transactions
+     |
+  AccountID
+     |
+  Accounts
+     |
+ CustomerID
+     |
+ Customers
+     |
+  BranchID
+     |
+  Branches
